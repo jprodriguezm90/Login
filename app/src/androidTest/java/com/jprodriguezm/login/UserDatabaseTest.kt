@@ -1,0 +1,69 @@
+package com.jprodriguezm.login
+
+import androidx.room.Room
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.jprodriguezm.login.database.UserDatabase
+import com.jprodriguezm.login.database.UserDatabaseDao
+import com.jprodriguezm.login.database.UserLogin
+import org.junit.After
+
+import org.junit.Test
+import org.junit.runner.RunWith
+
+import org.junit.Assert.*
+import org.junit.Before
+import java.io.IOException
+
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class UserDatabaseTest {
+
+    private lateinit var userDao: UserDatabaseDao
+    private lateinit var db: UserDatabase
+
+    @Before
+    fun createDb() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        // Using an in-memory database because the information stored here disappears when the
+        // process is killed.
+        db = Room.inMemoryDatabaseBuilder(context, UserDatabase::class.java)
+            // Allowing main thread queries, just for testing.
+            .allowMainThreadQueries()
+            .build()
+        userDao = db.userDatabaseDao
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun closeDb() {
+        db.close()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetLast() {
+        val user = UserLogin()
+        userDao.insert(user)
+        val lastUser = userDao.getLast()
+        assertEquals(lastUser?.rate, -1)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun updateAndGetLast() {
+        val night = UserLogin()
+        userDao.insert(night)
+        var tonight = userDao.getLast()
+        if (tonight != null){
+            tonight.rate = 1
+            userDao.update(tonight)
+            tonight = userDao.getLast()
+        }
+        assertEquals(tonight?.rate, 1)
+    }
+}

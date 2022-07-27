@@ -2,10 +2,11 @@ package com.jprodriguezm.login.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "users_login_table")
+@Entity(tableName = "users_login_table", indices = [Index(value = ["email"], unique = true)])
 data class UserLogin(
     @PrimaryKey(autoGenerate = true)
     var userId: Long = 0L,
@@ -17,7 +18,10 @@ data class UserLogin(
     var name: String = "",
 
     @ColumnInfo(name = "password_hash")
-    var passwordHash: ByteArray? = null
+    var passwordHash: ByteArray? = null,
+
+    @ColumnInfo(name = "rate")
+    var rate: Int = -1
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
