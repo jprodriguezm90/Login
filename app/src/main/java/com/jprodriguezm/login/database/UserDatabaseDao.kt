@@ -15,7 +15,7 @@ interface UserDatabaseDao {
     fun get(key: Long): UserLogin
 
     @Query("SELECT * FROM users_login_table WHERE email = :email")
-    fun getbyEmail(email: String): UserLogin
+    fun getByEmail(email: String): UserLogin
 
     @Delete
     fun delete(userLogin: UserLogin)
