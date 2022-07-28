@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.jprodriguezm.login.R
-import com.jprodriguezm.login.databinding.FragmentLoginBinding
+import com.jprodriguezm.login.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
 
@@ -17,7 +17,7 @@ class RegisterFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_login, container, false)
-        val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater,
+        val binding: FragmentRegisterBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_register, container,false)
         return binding.root
     }
